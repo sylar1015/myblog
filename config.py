@@ -21,10 +21,11 @@ class DevConfig(WebConfig):
 class ProductConfig(WebConfig):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1/myblog'
 
 config = {
 
     'dev': DevConfig,
     'product' : ProductConfig,
-    'default' : DevConfig,
+    'default' : ProductConfig,
 }
