@@ -6,7 +6,7 @@ from config import config
 from webapp import db, create_app
 from flask_migrate import Migrate, MigrateCommand
 
-app = create_app(config['dev'])
+app = create_app(config['default'])
 
 manager = Manager(app)
 migrate = Migrate(app, db)
