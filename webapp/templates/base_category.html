@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<section class="content-wrap">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-4 sidebar">
+                {% block category_block %}
+                {% endblock category_block %}
+            </aside>
+            <main class="col-md-8 main-content" id="main-content">
+                {% block post_block %}
+                {% endblock post_block %}
+            </main>
+        </div>
+    </div>
+</section>
+{% endblock page_content %}
