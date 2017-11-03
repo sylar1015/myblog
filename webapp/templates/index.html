@@ -1,0 +1,28 @@
+{% extends "base_content.html" %}
+
+{% block main_content %}
+{% for post in posts %}
+<article id={{post.id}} class="post">
+    <div class="post-head">
+        <h1 class="post-title">
+            <a href="{{post.link}}">{{ post.title }}</a>
+        </h1>
+        <div class="post-meta">
+            <time class="post-date">{{ post.get_timestamp() }}</time>
+            |
+            标签 <a href="javascript:void(0);">{{ post.tags }}</a>
+        </div>
+    </div>
+    <div class="post-content">{{ post.content_html | safe | truncate_p }}</div>
+    <div class="post-permalink">
+        <a href="{{ post.link }}" class="btn btn-default">阅读全文</a>
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <i class="fa fa-folder-open-o"></i>
+        </div>
+        <div class="pull-right share"></div>
+    </footer>
+</article>
+{% endfor %}
+{% endblock main_content %}

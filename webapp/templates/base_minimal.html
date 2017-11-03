@@ -1,0 +1,95 @@
+<!-- entends -->
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!-- title -->
+{% block title %}
+Sylar的个人主页
+{% endblock %}
+
+<!-- meta -->
+{% block metas %}
+{{ super() }}
+<meta charset="utf-8">
+<meta name="keywords" content="Sylar,Flask,Scraper,Crawler,爬虫">
+{% endblock %}
+
+<!-- style -->
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/extra.css">
+{% endblock %}
+
+<!-- nav -->
+{% block navbar %}
+<nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header">
+                    <span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu">
+                        <span class="sr-only">Sylar的个人主页</span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        <li class="nav-current" role="presentation"><a href="/">首页</a></li>
+                        <li role="presentation"><a href="#">Flask</a></li>
+                        <li role="presentation"><a href="#">爬虫</a></li>
+                        <li role="presentation"><a href="/about">关于</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+<div class="container">
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+</div>
+
+{% block page_content %}{% endblock page_content %}
+
+<footer class="main-footer">
+    {% block footer %}
+    {% endblock footer %}
+</footer>
+
+<div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <span><a href="https://github.com/sylar1015/myblog">Powered by myblog</a></span>
+                |
+                <span><a href="http://www.miitbeian.gov.cn/">苏ICP备17064448号</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" id="back-to-top" style="display:block;">
+    <i class="fa fa-angle-up"></i>
+</a>
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<script src="/static/js/extra.js"></script>
+{{ pagedown.include_pagedown() }}
+{% endblock %}
