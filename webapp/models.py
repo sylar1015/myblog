@@ -51,7 +51,7 @@ class Post(db.Model):
     def on_content_changed(target, value, old_value, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p', 'span']
+                        'h1', 'h2', 'h3', 'p', 'span', 'hr']
 
         attr = {
             '*' : ['class'],
@@ -71,8 +71,10 @@ class Post(db.Model):
         return post
 
     @staticmethod
-    def get_latest():
-        pass
+    def get_latest(**kwargs):
+        num = kwargs.get('num', 3)
+        posts = db.session.query(Post).order_by(Post.timestamp.desc()).limit(num).all()
+        return posts
 
     @staticmethod
     def get_hotest(**kwargs):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*-coding:utf-8-*-
 
-from webapp import app
+from webapp import app, cache
 from webapp.forms import *
 from webapp.models import *
 from flask import render_template
@@ -12,12 +12,15 @@ from flask import request
 @app.route('/')
 def index():
     posts = Post.get_hotest()
-    return render_template('index.html', posts = posts)
+    recent_posts = Post.get_latest()
+    return render_template('index.html', posts = posts, recent_posts = recent_posts)
 
 @app.route('/about')
+@cache.cached(timeout=600)
 def about():
     post = Post.get_about()
-    return render_template('about.html', post = post)
+    recent_posts = Post.get_latest()
+    return render_template('post.html', post = post, recent_posts = recent_posts)
 
 @app.route('/publish', methods=['GET', 'POST'])
 def publish():
@@ -52,5 +55,6 @@ def publish():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', post = post)
+    recent_posts = Post.get_latest()
+    return render_template('post.html', post = post, recent_posts = recent_posts)
 

@@ -10,10 +10,12 @@
             <div class="widget">
                 <h4 class="title">最新文章</h4>
                 <div class="content recent-post">
+                    {% for recent_post in recent_posts %}
                     <div class="recent-single-post">
-                        <a href="#" class="post-title">Lesson 1</a>
-                        <div class="date">2017年11月1日</div>
+                        <a href="{{ recent_post.link }}" class="post-title">{{recent_post.title}}</a>
+                        <div class="date">{{ recent_post.get_timestamp() }}</div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
