@@ -32,7 +32,7 @@ def publish():
     if form.validate_on_submit():
 
         title = form.title.data
-        tags = form.title.data
+        tags = form.tags.data
         category_id = form.category.data
         content = form.content.data
 
