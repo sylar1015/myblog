@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_pagedown import PageDown
+from flask_cache import Cache
 
 app = Flask(__name__)
 db = SQLAlchemy()
@@ -14,12 +15,13 @@ bootstrap = Bootstrap()
 moment = Moment()
 login_manager = LoginManager()
 pagedown = PageDown()
+cache = Cache()
 
 def truncate_p(string):
-    pos = string.find('</p>')
+    pos = string.find('<hr>')
     if pos < 0:
         return string
-    return string[:pos + len('</p>')]
+    return string[:pos]
 
 def create_app(config):
 
@@ -34,6 +36,9 @@ def create_app(config):
     #login_manager.login_view = 'login'
     #login_manager.anonymous_user = models.Guest
     login_manager.init_app(app)
+
+    #cache
+    cache.init_app(app)
 
     app.jinja_env.filters['truncate_p'] = truncate_p
 

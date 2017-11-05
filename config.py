@@ -18,10 +18,14 @@ class DevConfig(WebConfig):
     basedir = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.db')
 
+    CACHE_TYPE = 'simple'
+
 class ProductConfig(WebConfig):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1/myblog'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1/myblog?charset=utf8'
+
+    CACHE_TYPE = 'simple'
 
 config = {
 
