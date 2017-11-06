@@ -32,9 +32,11 @@ def create_app(config):
     moment.init_app(app)
     pagedown.init_app(app)
 
-    login_manager.session_protection = 'strong'
-    #login_manager.login_view = 'login'
+    login_manager.session_protection = 'basic' #'strong'
+    login_manager.login_view = 'login'
     #login_manager.anonymous_user = models.Guest
+    login_manager.login_message = 'Please login to access this page'
+    login_manager.login_message_category = "warning"
     login_manager.init_app(app)
 
     #cache

@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 #-*-coding:utf-8-*-
 
-from webapp import app, cache
+from webapp import app, cache, login_manager
 from webapp.forms import *
 from webapp.models import *
 from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import request
+from flask_login import login_required
+from flask_login import login_user, logout_user
 
 @app.route('/')
 def index():
@@ -21,6 +23,7 @@ def about():
     return render_template('post.html', post = post)
 
 @app.route('/publish', methods=['GET', 'POST'])
+@login_required
 def publish():
 
     form = PublishForm()
@@ -54,6 +57,31 @@ def publish():
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', post = post)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        user = User.get_user(username)
+        if user and user.verify_password(password):
+            login_user(user, form.remember_me.data)
+            return redirect(url_for('index'))
+        else:
+            flash('用户名或密码不正确', category='warning')
+    return render_template('login.html', form = form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('用户注销成功', category = 'info')
+    return redirect(url_for('index'))
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 '''
 template util

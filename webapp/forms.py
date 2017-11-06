@@ -19,3 +19,18 @@ class PublishForm(FlaskForm):
         super(PublishForm, self).__init__(*args, **kwargs)
         self.category.choices = \
             [(category.id, category.name) for category in Category.get_all()]
+
+class LoginForm(FlaskForm):
+
+    username = StringField('用户名', 
+        validators=[DataRequired(), Length(min=1, max=128)],
+        render_kw = {'placeholder': '输入用户名'})
+    password = PasswordField('密码',
+        validators=[DataRequired(), Length(min=1, max=128)],
+        render_kw = {'placeholder': '输入密码'})
+    remember_me = BooleanField('记住我')
+    submit = SubmitField('登录')
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+

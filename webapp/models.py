@@ -8,6 +8,34 @@ from datetime import datetime
 from markdown import markdown
 import bleach
 
+class User(db.Model, UserMixin):
+    
+    __tablename__ = 'user'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(128), unique=True, index=True)
+    password_hash = db.Column(db.String(256))
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+    @staticmethod
+    def get_user(username):
+        user = db.session.query(User).filter_by(username = username).first()
+        return user
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+class Guest(AnonymousUserMixin):
+    pass
+
 class Category(db.Model):
 
     __tablename__ = 'category'
