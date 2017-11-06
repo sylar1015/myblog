@@ -40,8 +40,6 @@ def create_app(config):
     #cache
     cache.init_app(app)
 
-    app.jinja_env.filters['truncate_p'] = truncate_p
-
     return app
 
 from webapp import views

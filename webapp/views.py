@@ -12,15 +12,13 @@ from flask import request
 @app.route('/')
 def index():
     posts = Post.get_hotest()
-    recent_posts = Post.get_latest()
-    return render_template('index.html', posts = posts, recent_posts = recent_posts)
+    return render_template('index.html', posts = posts)
 
 @app.route('/about')
 @cache.cached(timeout=600)
 def about():
     post = Post.get_about()
-    recent_posts = Post.get_latest()
-    return render_template('post.html', post = post, recent_posts = recent_posts)
+    return render_template('post.html', post = post)
 
 @app.route('/publish', methods=['GET', 'POST'])
 def publish():
@@ -55,6 +53,20 @@ def publish():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    recent_posts = Post.get_latest()
-    return render_template('post.html', post = post, recent_posts = recent_posts)
+    return render_template('post.html', post = post)
 
+'''
+template util
+'''
+@app.template_filter('truncate_p')
+def truncate_p(string):
+    pos = string.find('<hr>')
+    if pos < 0:
+        return string
+    return string[:pos]
+
+@app.context_processor
+def utility_processor():
+    def latest_posts():
+        return Post.get_latest()
+    return dict(latest_posts = latest_posts)
