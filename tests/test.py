@@ -16,28 +16,35 @@ class ModelTestCase(unittest.TestCase):
         ctx = app.app_context()
         ctx.push()
 
-        items = Category.get_all()
-        if not items:
-            item = Category()
-            item.name = 'About'
-            item.link = '/about'
-            db.session.add(item)
+        items = [ ('About', '/about'), ('Flask', '/flask'), ('Scraper', '/scraper')]
+
+        for item in items:
+            c = Category.query.filter_by(name=item[0]).first()
+            if c:
+                continue
+            c = Category()
+            c.name = item[0]
+            c.link = item[1]
+            db.session.add(c)
             db.session.commit()
 
-            item = Category()
-            item.name = 'Flask'
-            item.link = '/flask'
-            db.session.add(item)
+        cs = Category.get_all()
+        self.assertTrue(len(items) == len(items))
+
+    def test_init_user(self):
+        #app = create_app(config['default'])
+        #ctx = app.app_context()
+        #ctx.push()
+
+        user = User.get_user('admin')
+        if not user:
+            user = User()
+            user.username = 'admin'
+            user.set_password('admin')
+            db.session.add(user)
             db.session.commit()
 
-            item = Category()
-            item.name = 'Scraper'
-            item.link = '/scraper'
-            db.session.add(item)
-            db.session.commit()
-
-        items = Category.get_all()
-        self.assertTrue(len(items) == 3)
+        self.assertTrue(user.verify_password('admin'))
 
 if __name__ == '__main__':
     unittest.main()

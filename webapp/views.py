@@ -8,6 +8,7 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import request
+from functools import wraps
 from flask_login import login_required
 from flask_login import login_user, logout_user
 
@@ -42,7 +43,7 @@ def publish():
         else:
             Post.post_new(title=title, tags=tags, category_id=category_id, content=content)
 
-        return redirect(url_for('index'))
+        return redirect(redirect_url())
 
     if post_id:
         post = Post.query.get_or_404(post_id)
@@ -98,3 +99,22 @@ def utility_processor():
     def latest_posts():
         return Post.get_latest()
     return dict(latest_posts = latest_posts)
+
+'''
+util functions
+'''
+def redirect_url():
+    return request.args.get('next') or \
+        request.referrer or \
+        url_for('index')
+
+'''
+decorator
+'''
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
