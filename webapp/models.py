@@ -75,6 +75,11 @@ class Post(db.Model):
     def get_timestamp(self):
         return self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
 
+    def increase_viewed(self):
+        self.viewed += 1
+        db.session.add(self)
+        db.session.commit()
+
     @staticmethod
     def on_content_changed(target, value, old_value, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
@@ -92,6 +97,7 @@ class Post(db.Model):
                          tags=allowed_tags,
                          attributes=attr,
                          strip=True))
+
 
     @staticmethod
     def get_about():

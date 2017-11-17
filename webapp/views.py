@@ -57,6 +57,9 @@ def publish():
 @app.route('/post/<int:post_id>')
 def post(post_id):
     post = Post.query.get_or_404(post_id)
+
+    post.increase_viewed()
+
     return render_template('post.html', post = post)
 
 @app.route('/login', methods=['GET', 'POST'])
