@@ -13,6 +13,7 @@ from flask_login import login_required
 from flask_login import login_user, logout_user
 
 @app.route('/')
+@cache.cached(timeout=300)
 def index():
     posts = Post.get_hotest()
     return render_template('index.html', posts = posts)
@@ -55,6 +56,7 @@ def publish():
     return render_template('publish.html', form = form)
 
 @app.route('/post/<int:post_id>')
+@cache.cached(timeout=600)
 def post(post_id):
     post = Post.query.get_or_404(post_id)
 
