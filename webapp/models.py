@@ -7,6 +7,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from markdown import markdown
 import bleach
+from sqlalchemy import func
 
 class User(db.Model, UserMixin):
     
@@ -50,9 +51,17 @@ class Category(db.Model):
         return '<Category %r>' % self.name
 
     @staticmethod
-    @cache.cached(timeout=7200, key_prefix='Category.get_all')
+    @cache.cached(timeout=600, key_prefix='Category.get_all')
     def get_all():
         return db.session.query(Category).all()
+
+    @staticmethod
+    @cache.cached(timeout=600, key_prefix='Category.get_categories')
+    def get_categories():
+        return db.session.query(Category.name.label('name'), \
+            Category.link.label('link'), \
+            func.count('*').label('count')).join(Post).group_by(Category.name).all()
+        #return db.session.query(Post.category_id, func.count('*'), Category.name).join(Category).group_by(Post.category_id).all()
 
 
 class Post(db.Model):

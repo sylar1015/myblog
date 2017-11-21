@@ -16,7 +16,10 @@ class ModelTestCase(unittest.TestCase):
         ctx = app.app_context()
         ctx.push()
 
-        items = [ ('About', '/about'), ('Flask', '/flask'), ('Scraper', '/scraper')]
+        items = [ ('About', '/about'),
+            ('Flask', '/flask'),
+            ('Scraper', '/scraper'),
+            ('Python', '/python')]
 
         for item in items:
             c = Category.query.filter_by(name=item[0]).first()
@@ -45,6 +48,16 @@ class ModelTestCase(unittest.TestCase):
             db.session.commit()
 
         self.assertTrue(user.verify_password('admin'))
+
+    def test_category(self):
+        #app = create_app(config['default'])
+        #ctx = app.app_context()
+        #ctx.push()
+
+        items = Category.get_categories()
+        print(items)
+
+        self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()

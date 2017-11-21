@@ -103,8 +103,11 @@ def truncate_p(string):
 def utility_processor():
     def latest_posts():
         return Post.get_latest()
-    return dict(latest_posts = latest_posts)
 
+    def categories():
+        return Category.get_categories()
+    return dict(latest_posts = latest_posts,
+                categories = categories)
 '''
 util functions
 '''
