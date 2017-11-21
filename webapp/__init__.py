@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_pagedown import PageDown
 from flask_cache import Cache
+from flask import request
 
 app = Flask(__name__)
 db = SQLAlchemy()
@@ -32,16 +33,21 @@ def create_app(config):
     moment.init_app(app)
     pagedown.init_app(app)
 
-    login_manager.session_protection = 'strong'
-    #login_manager.login_view = 'login'
+    login_manager.session_protection = 'basic' #'strong'
+    login_manager.login_view = 'login'
     #login_manager.anonymous_user = models.Guest
+    login_manager.login_message = 'Please login to access this page'
+    login_manager.login_message_category = "warning"
     login_manager.init_app(app)
 
     #cache
     cache.init_app(app)
 
-    app.jinja_env.filters['truncate_p'] = truncate_p
-
     return app
+
+def make_cache_key(*args, **kwargs):
+    path = request.path
+    args = str(hash(frozenset(request.args.items())))
+    return (path + args).encode('utf-8')
 
 from webapp import views

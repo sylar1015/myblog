@@ -1,0 +1,5 @@
+{% extends "base_content.html" %}
+
+{% block main_content %}
+{{ wtf.quick_form(form, button_map={"submit" : "default"}) }}
+{% endblock main_content %}

@@ -4,7 +4,7 @@
 
 <!-- title -->
 {% block title %}
-Sylar的个人主页
+Sylar's Blog
 {% endblock %}
 
 <!-- meta -->
@@ -52,8 +52,8 @@ Sylar的个人主页
 {% block content %}
 <div class="container">
 
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-danger">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }}">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
     </div>

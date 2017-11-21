@@ -12,6 +12,19 @@
                 {% block main_content %}
                 {% endblock main_content %}
             </main>
+
+            <aside class="col-md-4 sidebar">
+                <div class="widget">
+                    <h4 class="title">分类</h4>
+                    <div class="content">
+                        {% for c in categories() %}
+                        <p><a href="{{ c.link }}">{{ c.name }}<span class="badge pull-right">{{ c.count }}</span></a></p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+
+
             <aside class="col-md-4 sidebar">
                 <div class="widget">
                     <h4 class="title">联系方式</h4>
