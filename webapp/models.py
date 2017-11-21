@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from webapp import db
+from webapp import db, cache
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
@@ -50,6 +50,7 @@ class Category(db.Model):
         return '<Category %r>' % self.name
 
     @staticmethod
+    @cache.cached(timeout=7200, key_prefix='Category.get_all')
     def get_all():
         return db.session.query(Category).all()
 
@@ -100,17 +101,20 @@ class Post(db.Model):
 
 
     @staticmethod
+    @cache.cached(timeout=7200, key_prefix='Post.get_about')
     def get_about():
         post = db.session.query(Post).join(Category).filter(Category.name == 'About').first()
         return post
 
     @staticmethod
+    @cache.memoize(600)
     def get_latest(**kwargs):
         num = kwargs.get('num', 3)
         posts = db.session.query(Post).order_by(Post.timestamp.desc()).limit(num).all()
         return posts
 
     @staticmethod
+    @cache.memoize(600)
     def get_hotest(**kwargs):
         num = kwargs.get('num', 10)
         posts = db.session.query(Post).order_by(Post.viewed.desc()).limit(num).all()

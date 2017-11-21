@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*-coding:utf-8-*-
 
-from webapp import app, cache, login_manager
+from webapp import app, cache, login_manager, make_cache_key
 from webapp.forms import *
 from webapp.models import *
 from flask import render_template
@@ -13,7 +13,7 @@ from flask_login import login_required
 from flask_login import login_user, logout_user
 
 @app.route('/')
-@cache.cached(timeout=300)
+@cache.cached(timeout=600)
 def index():
     posts = Post.get_hotest()
     return render_template('index.html', posts = posts)
@@ -56,7 +56,7 @@ def publish():
     return render_template('publish.html', form = form)
 
 @app.route('/post/<int:post_id>')
-@cache.cached(timeout=600)
+@cache.cached(timeout=600, key_prefix=make_cache_key)
 def post(post_id):
     post = Post.query.get_or_404(post_id)
 

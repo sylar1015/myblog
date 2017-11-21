@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_pagedown import PageDown
 from flask_cache import Cache
+from flask import request
 
 app = Flask(__name__)
 db = SQLAlchemy()
@@ -43,5 +44,10 @@ def create_app(config):
     cache.init_app(app)
 
     return app
+
+def make_cache_key(*args, **kwargs):
+    path = request.path
+    args = str(hash(frozenset(request.args.items())))
+    return (path + args).encode('utf-8')
 
 from webapp import views
