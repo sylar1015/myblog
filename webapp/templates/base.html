@@ -10,7 +10,7 @@
             <div class="widget">
                 <h4 class="title">最新文章</h4>
                 <div class="content recent-post">
-                    {% for post in latest_posts(3) %}
+                    {% for post in latest_posts(num=3) %}
                     <div class="recent-single-post">
                         <a href="{{ post.link }}" class="post-title">{{post.title}}</a>
                         <div class="date">{{ post.get_timestamp() }}</div>
