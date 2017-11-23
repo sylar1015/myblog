@@ -118,14 +118,14 @@ class Post(db.Model):
     @staticmethod
     @cache.memoize(600)
     def get_latest(**kwargs):
-        num = kwargs.get('num', 3)
+        num = kwargs.get('num', 10)
         posts = db.session.query(Post).order_by(Post.timestamp.desc()).limit(num).all()
         return posts
 
     @staticmethod
     @cache.memoize(600)
     def get_hotest(**kwargs):
-        num = kwargs.get('num', 10)
+        num = kwargs.get('num', 3)
         posts = db.session.query(Post).order_by(Post.viewed.desc()).limit(num).all()
         return posts
 

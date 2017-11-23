@@ -15,7 +15,7 @@ from flask_login import login_user, logout_user
 @app.route('/')
 @cache.cached(timeout=600)
 def index():
-    posts = Post.get_hotest()
+    posts = Post.get_latest()
     return render_template('index.html', posts = posts)
 
 @app.route('/about')
@@ -101,8 +101,8 @@ def truncate_p(string):
 
 @app.context_processor
 def utility_processor():
-    def latest_posts():
-        return Post.get_latest()
+    def latest_posts(**kwargs):
+        return Post.get_latest(**kwargs)
 
     def categories():
         return Category.get_categories()

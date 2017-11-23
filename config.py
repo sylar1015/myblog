@@ -25,6 +25,7 @@ class ProductConfig(WebConfig):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1/myblog?charset=utf8'
 
+    #SQLALCHEMY_DATABASE_URI = 'postgresql://postgres@127.0.0.1/myblog'
     CACHE_TYPE = 'simple'
 
 config = {
