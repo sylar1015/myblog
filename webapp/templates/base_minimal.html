@@ -17,8 +17,8 @@ Sylar's Blog
 <!-- style -->
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.12.0/styles/vs.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/vs.min.css">
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
 <link rel="stylesheet" href="/static/css/extra.css">
 <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicon-96x96.png">
@@ -91,7 +91,7 @@ Sylar's Blog
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="/static/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>
 <script src="/static/js/extra.js"></script>
 {{ pagedown.include_pagedown() }}
